@@ -4,14 +4,16 @@ from django.forms import ValidationError
 
 
 class RegisterForm(forms.ModelForm):
+    password_confirm = forms.CharField()
     class Meta:
         model = User
         fields = ('username', 'email', 'password', 'password_confirm')
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'password_confirm': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
         }
 
-    def clean_password2(self):
+    def clean_password_confirm(self):
         password = self.cleaned_data.get("password")
         password_confirm = self.cleaned_data.get("password_confirm")
 
